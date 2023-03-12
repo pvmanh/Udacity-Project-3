@@ -11,7 +11,7 @@ jobs:
           keys: [frontend-build]
       - run: 
           name: build frontend
-          command: 
+          command: |
             cd frontend
             npm install
             npm run build
