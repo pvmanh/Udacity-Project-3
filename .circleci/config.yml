@@ -84,7 +84,7 @@ jobs:
       - slack/notify:
           channel: $SLACK_DEFAULT_CHANNEL
           event: fail
-          template: scan-fail-frontend
+          template: basic_fail_1
 
   scan-backend:
     docker:
@@ -103,7 +103,7 @@ jobs:
       - slack/notify:
           channel: $SLACK_DEFAULT_CHANNEL
           event: fail
-          template: scan-fail-backend
+          template: basic_fail_1
 
 workflows:
   default:
@@ -115,9 +115,9 @@ workflows:
       - test-backend:
           requires: [build-backend]
       - scan-backend:
+          context: slack-secrets
           requires: [build-backend]
-          context: slack-secrets
       - scan-frontend:
-          requires: [build-frontend]
           context: slack-secrets
+          requires: [build-frontend]
       
