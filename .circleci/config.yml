@@ -161,6 +161,28 @@ jobs:
             - project/.circleci/ansible/inventory.txt    
       - destroy-environment
 
+  configure-infrastructure:
+    docker:
+      - image: amazon/aws-cli
+    steps:
+      - checkout
+      - add_ssh_keys:
+          fingerprints: 
+            - "47:d2:0d:56:8c:0c:86:ff:fb:2d:d5:95:84:27:e5:a7"
+      - attach_workspace:
+          at: ~/
+      - run:
+          name: Install dependencies
+          command: |
+            apk add --update ansible
+            pip install awscli
+      - run:
+          name: Configure server
+          command: |
+            cat ./.circleci/ansible/inventory.txt
+            ansible-playbook -i ./.circleci/ansible/inventory.txt ./.circleci/ansible/configure-server.yml
+      - destroy-environment
+
 workflows:
   default:
     jobs:
