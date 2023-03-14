@@ -196,7 +196,8 @@ jobs:
           name: Run migrations
           command: |
             cd backend
-            cat .env
+            npm run migrations >> migrations.txt
+            cat migrations.txt
       - run:
           name: Send migration status to kvdb.io OR memstash.io
           command: |
@@ -204,7 +205,7 @@ jobs:
             then
               curl https://kvdb.io/2dSoqsWZxrtJh6LEx8bDN2/migration_${CIRCLE_WORKFLOW_ID:0:7}  -d '1'
             fi
-      - destroy-environment
+      #- destroy-environment
 
 workflows:
   default:
