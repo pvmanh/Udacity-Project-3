@@ -3,6 +3,7 @@ version: 2.1
 
 orbs:
   slack: circleci/slack@4.12.1
+  aws-cli: circleci/aws-cli@3.1.4
 
 commands:
   destroy-environment:
@@ -127,10 +128,14 @@ jobs:
     steps:
       - checkout
       - run:
+          name: Install tar and zip utilities
+          command: |
+            sudo apt install tar gzip
+      - run:
           name: Ensure back-end infrastructure exists
           command: |
             aws cloudformation deploy \
-              --template-file .circleci/files/backend.yml \
+              --template-file ./circleci/files/backend.yml \
               --tags project=udapeople \
               --stack-name "udapeople-backend-${CIRCLE_WORKFLOW_ID:0:7}" \
               --parameter-overrides ID="${CIRCLE_WORKFLOW_ID:0:7}"
@@ -139,7 +144,7 @@ jobs:
           name: Ensure front-end infrastructure exist
           command: |
             aws cloudformation deploy \
-              --template-file .circleci/files/frontend.yml \
+              --template-file ./circleci/files/frontend.yml \
               --tags project=udapeople \
               --stack-name "udapeople-frontend-${CIRCLE_WORKFLOW_ID:0:7}" \
               --parameter-overrides ID="${CIRCLE_WORKFLOW_ID:0:7}"
