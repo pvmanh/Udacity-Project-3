@@ -19,7 +19,7 @@ commands:
           command: |
             aws cloudformation delete-stack --stack-name udapeople-backend-<< parameters.Workflow_ID >>
             aws cloudformation delete-stack --stack-name udapeople-frontend-<< parameters.Workflow_ID >>
-            aws s3 rm s3://udapeople-<<parameters.Workflow_ID>> --recursive
+            aws s3 rb s3://udapeople-<<parameters.Workflow_ID>> --force
 
 jobs:
   build-frontend:
@@ -128,6 +128,10 @@ jobs:
     steps:
       - checkout
       - run:
+          name: Install tar
+          command: |
+            yum -y install tar gzip
+      - run:
           name: Ensure back-end infrastructure exists
           command: |
             aws cloudformation deploy \
@@ -140,7 +144,7 @@ jobs:
           name: Ensure front-end infrastructure exist
           command: |
             aws cloudformation deploy \
-              --template-file /.circleci/files/frontend.yml \
+              --template-file ./.circleci/files/frontend.yml \
               --tags project=udapeople \
               --stack-name "udapeople-frontend-${CIRCLE_WORKFLOW_ID:0:7}" \
               --parameter-overrides ID="${CIRCLE_WORKFLOW_ID:0:7}"
@@ -158,7 +162,8 @@ jobs:
           root: ~/
           paths:
             - project/.circleci/ansible/inventory.txt    
-      - destroy-environment
+      - destroy-environment:
+          Workflow_ID: ${CIRCLE_WORKFLOW_ID:0:7}
 
 workflows:
   default:
