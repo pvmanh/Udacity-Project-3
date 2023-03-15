@@ -217,7 +217,6 @@ jobs:
         - image: cimg/node:13.8.0
     steps:
       - checkout
-      - install_awscli
       - run:
           name: Run migrations
           command: |
