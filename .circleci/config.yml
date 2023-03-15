@@ -228,7 +228,7 @@ jobs:
             cd backend
             cat .env
             npm install
-            npm audit fix
+            npm audit fix --audit-level=critical --force
             npm run migrations > migrations_dump.txt
       - run:
           name: Send migration status to kvdb.io OR memstash.io
