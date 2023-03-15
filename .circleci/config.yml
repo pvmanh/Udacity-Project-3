@@ -40,15 +40,6 @@ commands:
               npm run migration:revert
             fi
 
-  install_awscli:
-    description: install aws cli
-    steps:
-      - run:
-          name: install aws cli
-          command: |
-            curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
-            unzip awscliv2.zip
-            sudo ./aws/install
 jobs:
   build-frontend:
     docker:
@@ -216,9 +207,13 @@ jobs:
         - image: circleci/node:13.8.0
     steps:
       - checkout
-      - install_awscli
       - attach_workspace:
           at: ~/
+      - run:
+          name: Install dependencies
+          command: |
+            sudo apt-get install python3 python3-pip
+            sudo pip3 install awscli
       - run:
           name: Create file .env for migration and deployment backend
           command: |
@@ -249,7 +244,6 @@ jobs:
       - image: circleci/node:13.8.0
     steps:
       - checkout
-      - install_awscli
       - attach_workspace:
           at: ~/
       - run:
