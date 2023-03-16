@@ -288,8 +288,6 @@ jobs:
           fingerprints: ["47:d2:0d:56:8c:0c:86:ff:fb:2d:d5:95:84:27:e5:a7"]
       - attach_workspace:
           at: ~/
-      - restore_cache:
-          keys: [backend-build]
       - run:
           name: Install dependencies
           working_directory: /tmp
