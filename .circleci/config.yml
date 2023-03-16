@@ -262,10 +262,9 @@ jobs:
                --query 'Reservations[*].Instances[*].PublicIpAddress' \
                --output text)
             export API_URL="http://${BACKEND_PUBLIC_IP}:3030"
-            echo "API_URL=http://${API_URL}" >> .env
+            echo "API_URL=${API_URL}" >> .env
             echo "NODE_ENV=production" >> .env
             cat .env
-            curl https://kvdb.io/2dSoqsWZxrtJh6LEx8bDN2/backendurl
       - run:
           name: Deploy frontend
           command: |
