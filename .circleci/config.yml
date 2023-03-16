@@ -385,8 +385,6 @@ jobs:
       - image: amazon/aws-cli
     steps:
       - checkout
-      - attach_workspace:
-          at: ~/
       - run:
           name: Get old stack workflow id and clean up
           command: |
