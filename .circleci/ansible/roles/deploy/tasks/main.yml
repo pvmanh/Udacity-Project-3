@@ -1,18 +1,18 @@
 - name: create directory 
-  become: true
+  become: yes
   file: 
     path: /home/app
     state: directory
     mode: 0755
 
 - name: copy artifact to app directory
-  become: true
+  become: yes
   copy: 
     src: ~/project/artifact.tar.gz
     dest: /home/app/artifact.tar.gz
 
 - name: uncompress
-  become: true
+  become: yes
   shell: |
     cd /home/app
     tar -vxf artifact.tar.gz
