@@ -1,21 +1,22 @@
 - name: create directory 
-  become: yes
+  become: true
   file: 
     path: /home/app
     state: directory
     mode: 0755
 
 - name: copy artifact to app directory
-  become: yes
+  become: true
   copy: 
     src: ~/project/artifact.tar.gz
     dest: /home/app/artifact.tar.gz
 
 - name: uncompress
-  become: yes
+  become: true
   shell: |
     cd /home/app
     tar -vxf artifact.tar.gz
+
 - name: build and start node
   shell: |
     cd /home/app
