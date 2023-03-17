@@ -1,1 +1,1 @@
-https://github.com/pvmanh/Udacity-Project-3/tree/circleci-project-setup
+https://github.com/pvmanh/Udacity-Project-3
